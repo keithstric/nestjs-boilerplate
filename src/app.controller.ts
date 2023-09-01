@@ -36,7 +36,7 @@ export class AppController {
 	}
 
 	/**
-	 * Reports the version from package.json and the Salesforce client
+	 * Reports the version from package.json
 	 */
 	@Get('version')
 	@ApiOperation({summary: 'This endpoint will return the version from package.json'})

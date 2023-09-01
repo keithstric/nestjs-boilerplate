@@ -1,6 +1,6 @@
-import {ConfigService} from '@core/modules/config/config.service';
 import {HttpService} from '@nestjs/axios';
 import {Injectable} from '@nestjs/common';
+import {ConfigService} from '@core/modules';
 
 @Injectable()
 export class AppService {

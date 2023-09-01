@@ -1,8 +1,8 @@
 import {Module} from '@nestjs/common';
 import {ConfigModule as NestConfigModule} from '@nestjs/config';
-import {ConfigService} from './config.service';
 import {PackageJsonProvider} from './providers';
 import {HttpModule} from '@nestjs/axios';
+import {ConfigService} from './config.service';
 
 @Module({
 	imports: [
