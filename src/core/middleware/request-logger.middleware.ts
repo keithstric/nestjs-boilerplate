@@ -15,10 +15,11 @@ export class RequestLoggerMiddleware implements NestMiddleware {
 				if (this._config.get('NODE_ENV') === 'local' || this._config.get('NODE_ENV') === 'test') {
 					Logger.log(msg, 'RequestLoggerMiddleware');
 				} else {
-
+					// Add your custom logging here
+					Logger.log(msg, 'RequestLoggerMiddleware')
 				}
-				Logger.log(`*********************END REQUEST ${req.traceId}*********************`);
 			}
+			Logger.log(`*********************END REQUEST ${req.traceId}*********************`);
 		});
 
 		const reqMsg = `Received a [${req.method}] request with traceId ${req.traceId} for path ${req.path} which matches route ${req.route.path}`;

@@ -4,6 +4,12 @@ import {
 	Injectable,
 } from '@nestjs/common';
 
+/**
+ * This service is meant for the "Routes" services to extend. Its main goal is to allow for redundant processes to be
+ * defined in a single place. For example, every GET request for every route does the exact same thing, with the exception
+ * of what is actually fetched. The get method in this class allows you to add all that duplicate functionality here instead
+ * of every route.
+ */
 @Injectable()
 export abstract class AbstractRouteService {
 	@Inject(AsyncLocalStorageService)
