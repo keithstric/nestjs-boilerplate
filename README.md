@@ -44,7 +44,7 @@ npm install
 npm start:dev
 ```
 
-Be sure to remove the `.git` directory and add it to your source control.
+Be sure to remove the `.git` directory and add it to **YOUR** source control.
 
 ## Useful commands
 
