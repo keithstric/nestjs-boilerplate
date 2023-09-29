@@ -1,0 +1,10 @@
+Dockerfile
+Dockerfile.dev
+README.md
+node_modules
+npm-debug.log
+.idea
+documentation
+.github
+test
+.git
