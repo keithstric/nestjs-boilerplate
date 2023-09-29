@@ -6,6 +6,7 @@
   "private": false,
   "license": "UNLICENSED",
   "scripts": {
+    "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "auth:artifact": "bash npm-auth.sh",
@@ -32,7 +33,9 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^7.0.0",
     "helmet": "^7.0.0",
+    "nestjs": "0.0.1",
     "reflect-metadata": "^0.1.13",
+    "rimraf": "^5.0.5",
     "rxjs": "^7.8.1",
     "utf8": "^3.0.0",
     "uuid": "^9.0.0"
@@ -40,7 +43,7 @@
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.21",
     "@golevelup/ts-jest": "^0.3.7",
-    "@nestjs/cli": "^9.0.0",
+    "@nestjs/cli": "^9.5.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@types/axios": "^0.14.0",

@@ -18,6 +18,6 @@ COPY package*.json ./
 RUN npm install -g rimraf copyfiles
 RUN npm install --only=production
 COPY . .
-COPY --from=devBuild usr/src/app/dist ./dist
+COPY --from=devBuild usr/src/app/dist/src ./dist
 EXPOSE 3001
 CMD ["npm", "run", "start:prod"]
