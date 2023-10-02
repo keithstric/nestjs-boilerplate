@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: nestjs-boilerplate-deployment
+      namespace: default
+      labels:
+        app: nestjs-boilerplate
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: nestjs-boilerplate
+      template:
+        metadata:
+          labels:
+            app: nestjs-boilerplate
+        spec:
+          containers:
+            - env:
+                - name: NODE_ENV
+                  value: production
+                - name: PORT
+                  value: '3001'
+              image: keithstric/nestjs-boilerplate:master
+              imagePullPolicy: Always
+              lifecycle:
+                postStart:
+                  exec:
+                    command:
+                      - npm
+                      - run
+                      - start:prod
+              name: nestjs-boilerplate-container
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: nestjs-boilerplate-service
+      namespace: default
+      labels:
+        app: nestjs-boilerplate
+    spec:
+      selector:
+        app: nestjs-boilerplate
+      ports:
+        - protocol: TCP
+          port: 3001
+          targetPort: 3001
+  - apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: nestjs-boilerplate-ingress
+    spec:
+      rules:
+        - host: 10.0.0.158
+          http:
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: nestjs-boilerplate-service
+                    port:
+                      number: 3001
