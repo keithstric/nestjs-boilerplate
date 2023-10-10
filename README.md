@@ -24,7 +24,7 @@ This project is purely a boilerplate with no routes. It is mean to allow rapid d
 * The following middleware already setup and configured
   * Request ID Generator (uuid)
   * Request Logger
-  * Populate the ALS values for every request
+  * Populate the Async Local Storage values for every request
 * Config Service looking at package.json and all environment variables
 * Abstract route service to allow for the placement of code that is executed for every type of request
 * [Compodoc](https://compodoc.app) Implementation
@@ -55,6 +55,6 @@ Be sure to remove the `.git` directory and add it to **YOUR** source control.
 
 ## Naming Conventions
 
-* `core` - Interfaces, Modules, Services that are required for the base application to function. This is where you would put things like database connectors, 3rd party service apis, etc.
+* `core` - Interfaces, Modules, Services that are required for the base application to function. This is where you would put things like database connectors, 3rd party service apis, loggers, etc.
 * `routes` - This is where all the routes for your application will be defined
 * `shared` - This is where any shared services, interfaces, models, etc. should be stored

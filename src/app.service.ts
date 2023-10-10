@@ -4,10 +4,7 @@ import {ConfigService} from '@core/modules';
 
 @Injectable()
 export class AppService {
-	constructor(
-		private readonly _config: ConfigService,
-		private readonly _http: HttpService,
-	) {}
+	constructor(private readonly _config: ConfigService, private readonly _http: HttpService) {}
 
 	getProjectName(): string {
 		return this._config.getPackageJsonVal('name');

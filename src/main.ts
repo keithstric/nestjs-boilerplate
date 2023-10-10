@@ -1,8 +1,11 @@
 import 'dotenv/config';
-import {ConfigService} from '@core/modules/';
-import {INestApplication, Logger} from '@nestjs/common';
+import {AllExceptionsFilter} from '@core/exceptions';
+import {HttpInterceptor} from '@core/interceptors';
+import {ConfigService} from '@core/modules';
+import {INestApplication, Logger, ValidationPipe} from '@nestjs/common';
 import {NestFactory} from '@nestjs/core';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
+import { useContainer } from "class-validator";
 import helmet from 'helmet';
 import {AppModule} from './app.module';
 
@@ -37,11 +40,18 @@ async function bootstrap() {
 	// Disable etag caching
 	app.getHttpAdapter().getInstance().set('etag', false);
 	app.use(helmet({contentSecurityPolicy: false}));
+	// Setup exception filters. Priority is from right to left. AllExceptionsFilter should be last so
+	// specific error filters are executed properly
+	app.useGlobalFilters(new AllExceptionsFilter(configService));
+	// Enable DTO request payload validation
+	app.useGlobalPipes(new ValidationPipe({transform: true}));
+	// Add the http interceptor
+	app.useGlobalInterceptors(new HttpInterceptor());
+	// Allow injection of dependencies to class-validator custom constraint classes
+	useContainer(app.select(AppModule), {fallbackOnErrors: true});
+	// Start listening for requests on port 3000 or provided PORT environment variable
 	await app.listen(configService.get('PORT') || 3000, '0.0.0.0');
-	Logger.log(
-		`NestJS App bootstrapped and listening on ${await app.getUrl()}`,
-		'main.ts.bootstrap',
-	);
+	Logger.log(`NestJS App bootstrapped and listening on ${await app.getUrl()}`, 'main.ts.bootstrap');
 }
 bootstrap();
 

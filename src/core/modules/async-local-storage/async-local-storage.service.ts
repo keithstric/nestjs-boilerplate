@@ -2,6 +2,11 @@ import {ILocalStorage} from '@core/interfaces/async-local-storage.interface';
 import {Injectable} from '@nestjs/common';
 import {AsyncLocalStorage} from 'async_hooks';
 
+/**
+ * This is the async local storage service. Used to provide context to downstream classes and methods
+ * so that request, request properties or other items available during a request don't need to be
+ * passed down the execution stack
+ */
 @Injectable()
 export class AsyncLocalStorageService {
 	constructor(private readonly _als: AsyncLocalStorage<ILocalStorage>) {}

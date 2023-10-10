@@ -3,6 +3,9 @@ import {ConfigService} from '@core/modules/config/config.service';
 import {Injectable, Logger, NestMiddleware} from '@nestjs/common';
 import {NextFunction, Response} from 'express';
 
+/**
+ * This is the request logging middleware. Implement logging for each request here
+ */
 @Injectable()
 export class RequestLoggerMiddleware implements NestMiddleware {
 	constructor(private readonly _config: ConfigService) {}
@@ -15,14 +18,14 @@ export class RequestLoggerMiddleware implements NestMiddleware {
 				if (this._config.get('NODE_ENV') === 'local' || this._config.get('NODE_ENV') === 'test') {
 					Logger.log(msg, 'RequestLoggerMiddleware');
 				} else {
-					// Add your custom logging here
-					Logger.log(msg, 'RequestLoggerMiddleware')
+					// Add your custom logging here for production environments
+					Logger.log(msg, 'RequestLoggerMiddleware');
 				}
 			}
-			Logger.log(`*********************END REQUEST ${req.traceId}*********************`);
+			Logger.log(`*********************END REQUEST ${req.requestId}*********************`);
 		});
 
-		const reqMsg = `Received a [${req.method}] request with traceId ${req.traceId} for path ${req.path} which matches route ${req.route.path}`;
+		const reqMsg = `Received a [${req.method}] request with requestId ${req.requestId} for path ${req.path} which matches route ${req.route.path}`;
 		Logger.log(reqMsg, 'RequestLoggerMiddleware');
 		next();
 	}
