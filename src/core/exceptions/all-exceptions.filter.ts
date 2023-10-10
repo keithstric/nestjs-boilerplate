@@ -3,6 +3,9 @@ import {ArgumentsHost, ExceptionFilter, HttpException, HttpStatus, InternalServe
 import {Response} from 'express';
 import {ConfigService} from '@core/modules';
 
+/**
+ * Catch all exceptions and return a custom error object back to the requester
+ */
 export class AllExceptionsFilter implements ExceptionFilter {
 	constructor(private readonly _config: ConfigService) {}
 

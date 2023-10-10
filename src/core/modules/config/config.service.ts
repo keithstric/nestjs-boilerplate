@@ -1,6 +1,11 @@
 import {Inject, Injectable} from '@nestjs/common';
 import {ConfigService as NestConfigService} from '@nestjs/config';
 
+/**
+ * This service will retrieve and cache all environment variables and package.json values. Other
+ * items that should go here would be GoogleSecretManager implementation or any other "configuration"
+ * variable providers
+ */
 @Injectable()
 export class ConfigService {
 	private readonly _cachedConfig: Map<string, any> = new Map<string, any>();
