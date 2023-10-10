@@ -29,6 +29,7 @@ This project is purely a boilerplate with no routes. It is mean to allow rapid d
 * Abstract route service to allow for the placement of code that is executed for every type of request
 * [Compodoc](https://compodoc.app) Implementation
 * Swagger docs ready to be defined on a per-route basis
+* Request payload validation setup and ready for custom routes
 
 ## Getting Started
 

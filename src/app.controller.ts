@@ -3,6 +3,11 @@ import {Controller, Get, HttpStatus, Res} from '@nestjs/common';
 import {ApiOperation, ApiResponse} from '@nestjs/swagger';
 import {Response} from 'express';
 
+/**
+ * This controller is not meant to be where all of your custom routes are defined. They should be defined
+ * in the src/routes/ directory with each "route" being its own module. However, I have placed routes here
+ * mainly to test that the api service is up and also for debugging (currentConfig)
+ */
 @Controller()
 export class AppController {
 	constructor(private readonly appService: AppService) {}
