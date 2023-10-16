@@ -4,7 +4,8 @@ import {Response} from 'express';
 import {ConfigService} from '@core/modules';
 
 /**
- * Catch all exceptions and return a custom error object back to the requester
+ * Catch all exceptions and return a custom error object back to the requester. Once the response is finished
+ * include your logging solution to log the error
  */
 export class AllExceptionsFilter implements ExceptionFilter {
 	constructor(private readonly _config: ConfigService) {}

@@ -5,6 +5,18 @@ import {ConfigService as NestConfigService} from '@nestjs/config';
  * This service will retrieve and cache all environment variables and package.json values. Other
  * items that should go here would be GoogleSecretManager implementation or any other "configuration"
  * variable providers
+ * @example
+ * ```
+ * @Injectable()
+ * export class SomeService {
+ *   constructor(private readonly _config: ConfigService) {}
+ *
+ *   someFunction() {
+ *     const nodeEnv = this._config.get<string>('NODE_ENV');
+ *     const packageVersion = this._config.getPackageJsonVal('version');
+ *   }
+ * }
+ * ```
  */
 @Injectable()
 export class ConfigService {

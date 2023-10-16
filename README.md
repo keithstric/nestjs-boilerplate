@@ -20,6 +20,7 @@ This project is purely a boilerplate with no routes. It is mean to allow rapid d
 ## Features
 
 * Request ID generated for every request
+* Request ID decorator provided for easy retrieval of the request ID
 * Asynchronous Local Storage (ALS) installed and configured to keep requestId and request objects so they do not have to be passed around all the different methods just to support logging
 * The following middleware already setup and configured
   * Request ID Generator (uuid)
@@ -59,3 +60,10 @@ Be sure to remove the `.git` directory and add it to **YOUR** source control.
 * `core` - Interfaces, Modules, Services that are required for the base application to function. This is where you would put things like database connectors, 3rd party service apis, loggers, etc.
 * `routes` - This is where all the routes for your application will be defined
 * `shared` - This is where any shared services, interfaces, models, etc. should be stored
+
+## F.A.Q
+
+* Why isn't a logger included in the project?
+  * From my experience every team has their own logging requirements and those logs are shipped off to different locations. I thought it best to not force my opinion on the logger so that each team can implement their own logger without having to get rid of the one I included.
+* Do I need to change anything to start using this project?
+  * Maybe, I tried to keep it as generic as possible so there would be minimal setup or removal of features to ensure a speedy implementation. Everything should work as is and not cause any performance bottlenecks. But it's up to you what you remove and what you don't.
