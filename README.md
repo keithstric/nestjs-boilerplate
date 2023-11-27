@@ -8,7 +8,7 @@
 #     # ######  ####    #    #####   #####     ######   ####  # ###### ###### #    # #      ###### #    #   #   ###### 
 ```
 
-This project is purely a boilerplate with no routes. It is mean to allow rapid deployment of a new API with all the base infrastructure of the application already in place and ready to start adding custom code based on your requirements.
+This project is purely a boilerplate with no routes. It is meant to allow rapid deployment of a new API with all the base infrastructure of the application already in place and ready to start adding custom code and routes based on your requirements.
 
 ## Project Goals
 
@@ -42,11 +42,12 @@ If you are not storing your project on GitHub use:
 ```
 git clone https://github.com/keithstric/nestjs-boilerplate.git new-project
 cd new-project
+rm -rf .git
 npm install
 npm start:dev
 ```
 
-Be sure to remove the `.git` directory and add it to **YOUR** source control.
+Be sure to remove the `.git` directory and add the project to **YOUR** source control.
 
 ## Useful commands
 
@@ -54,6 +55,14 @@ Be sure to remove the `.git` directory and add it to **YOUR** source control.
 * `npm run test` - Runs the unit tests
 * `npm run compodoc` - Will build the documentation
 * `npm run build` - Will run the build for the application and place in the `./dist` directory
+
+## Environment variables and persistent configuration options
+
+This project includes a `ConfigService` module which will cache all environment variables. This service is a good place to also add things like a Secret Manager so that those values get cached within the application without having to go through your secret manager provider every time you need a value from it.
+
+## Caching
+
+I have not included a request/response cache as the need for that type of functionality seems to be based on the project itself. Also, [NestJS provides this functionality already built-in](https://docs.nestjs.com/techniques/caching). However, there is a global caching module that provides a simple means of caching values the application might use. Since this service is injectable, you should be able to use like any other service dependency.
 
 ## Naming Conventions
 

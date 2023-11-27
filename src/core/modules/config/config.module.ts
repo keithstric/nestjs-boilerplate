@@ -1,3 +1,4 @@
+import { CachingModule } from "@core/modules/caching/caching.module";
 import {Module} from '@nestjs/common';
 import {ConfigModule as NestConfigModule} from '@nestjs/config';
 import {PackageJsonProvider} from './providers';
@@ -12,6 +13,7 @@ import {ConfigService} from './config.service';
 			isGlobal: true,
 		}),
 		HttpModule,
+		CachingModule,
 	],
 	providers: [ConfigService, PackageJsonProvider],
 	exports: [ConfigService],

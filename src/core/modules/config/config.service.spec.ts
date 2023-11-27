@@ -1,3 +1,4 @@
+import { CachingModule } from "@core/modules/caching/caching.module";
 import {PackageJsonProvider} from '@core/modules/config/providers';
 import {createMock} from '@golevelup/ts-jest';
 import {HttpService} from '@nestjs/axios';
@@ -10,7 +11,7 @@ describe('ConfigService', () => {
 
 	beforeAll(async () => {
 		const module: TestingModule = await Test.createTestingModule({
-			imports: [NestConfigModule.forRoot({isGlobal: true})],
+			imports: [NestConfigModule.forRoot({isGlobal: true}), CachingModule],
 			providers: [
 				NestConfigService,
 				ConfigService,
@@ -28,7 +29,7 @@ describe('ConfigService', () => {
 
 	describe('package.json', () => {
 		beforeEach(() => {
-			(configService as any)._cachedConfig.clear();
+			(configService as any)._cache.flushAll();
 		});
 
 		it('should get values from package.json', () => {
@@ -41,7 +42,7 @@ describe('ConfigService', () => {
 			const packageJsonKey = 'version';
 			configService.getPackageJsonVal(packageJsonKey);
 			const cacheKey = `${(configService as any)._packageJsonPrefix}${packageJsonKey}`;
-			expect((configService as any)._cachedConfig.has(cacheKey)).toBe(true);
+			expect((configService as any)._cache.hasKey(cacheKey)).toBe(true);
 		});
 	});
 });

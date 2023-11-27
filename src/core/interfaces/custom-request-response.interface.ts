@@ -1,4 +1,4 @@
-import {Request} from 'express';
+import {Request, Response} from 'express';
 
 /**
  * Use this interface instead of the express Request
@@ -6,4 +6,8 @@ import {Request} from 'express';
 export interface ICustomRequest extends Request {
 	id?: string;
 	requestId?: string;
+}
+
+export interface ICustomResponse extends Response {
+	responseBody?: any;
 }

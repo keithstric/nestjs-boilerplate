@@ -1,5 +1,5 @@
 import {AppService} from '@/src/app.service';
-import {Controller, Get, HttpStatus, Res} from '@nestjs/common';
+import { Controller, Get, HttpStatus, Req, Res } from "@nestjs/common";
 import {ApiOperation, ApiResponse} from '@nestjs/swagger';
 import {Response} from 'express';
 
@@ -54,7 +54,7 @@ export class AppController {
 	}
 
 	/**
-	 * Gets all the cached configuration values from the config service
+	 * Gets all the cached configuration values from the config service.
 	 */
 	@Get('currentConfig')
 	@ApiOperation({summary: 'This endpoint will return all the cached configuration variables from the config service'})

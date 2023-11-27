@@ -1,4 +1,4 @@
-import {ICustomRequest} from '@core/interfaces/custom-request.interface';
+import {ICustomRequest} from '@core/interfaces/custom-request-response.interface';
 import {createParamDecorator, ExecutionContext} from '@nestjs/common';
 
 /**
