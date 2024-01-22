@@ -17,7 +17,6 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
-/.k6-load-testing/*.csv
 
 # IDEs and editors
 /.idea
@@ -37,7 +36,6 @@ lerna-debug.log*
 
 # local-dev
 .env
-/reference-files
 
 # documentation
 /documentation

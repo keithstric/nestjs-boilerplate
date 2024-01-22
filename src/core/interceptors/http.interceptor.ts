@@ -1,5 +1,6 @@
 import { CachingService } from "@core/modules/caching/caching.service";
 import { CallHandler, ExecutionContext, Inject, Injectable, NestInterceptor } from "@nestjs/common";
+import { Request, Response } from "express";
 import { Observable } from "rxjs";
 import {ConfigService} from '@core/modules/config/config.service';
 
@@ -14,8 +15,8 @@ export class HttpInterceptor implements NestInterceptor {
 	private _cache: CachingService;
 
 	intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<any> {
-		const req = context.switchToHttp().getRequest();
-		const res = context.switchToHttp().getResponse();
+		const req: Request = context.switchToHttp().getRequest();
+		const res: Response = context.switchToHttp().getResponse();
 		// Your logic here
 		return next.handle();
 	}
