@@ -5,7 +5,7 @@ pipeline {
         stage('Node Install') {
             steps {
                 echo 'Installing dependencies...'
-                git credentialsId: 'github-keithstric', url: 'https://github.com/keithstric/node-typescript-boilerplate.git'
+                git credentialsId: 'github-keithstric', url: 'https://github.com/keithstric/nestjs-boilerplate.git'
                 sh 'npm install'
             }
         }
