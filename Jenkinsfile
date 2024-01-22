@@ -9,6 +9,12 @@ pipeline {
                 sh 'npm install'
             }
         }
+        stage('Testing') {
+            steps {
+                echo 'Running Unit Tests'
+                sh 'npm run test'
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Starting the build...'
