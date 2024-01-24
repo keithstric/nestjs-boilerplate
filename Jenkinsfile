@@ -18,15 +18,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Starting the build...'
-                sh 'npm run build'
+                sh 'npm run build --only=production'
             }
         }
         stage('Build Docker Image...') {
             steps {
                 echo 'Building the docker image...'
-                def nestjsBPImage = docker.build("keithstric/nestjs-boilerplate")
-                nestjsBPImage.push()
-                nestjsBPImage.push('latest')
+                img = docker.build('keithstric/nestjs-boilerplate')
+                img.push('latest')
             }
         }
     }
