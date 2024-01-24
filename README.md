@@ -8,11 +8,11 @@
 #     # ######  ####    #    #####   #####     ######   ####  # ###### ###### #    # #      ###### #    #   #   ###### 
 ```
 
-This project is purely a boilerplate with no routes. It is meant to allow rapid deployment of a new API with all the base infrastructure of the application already in place and ready to start adding custom code and routes based on your requirements.
+This project is purely a boilerplate with no routes. It is meant to allow rapid deployment of a new API with all the base infrastructure of the application already in place and ready to start adding custom code and routes based on your requirements. This project is meant to be very un-opinionated and not force the audience into a certain technology or use of something that may not fit their particular use case.
 
 ## Project Goals
 
-* Basic NestJS implementation
+* Non-Opinionated Basic NestJS implementation
 * Provide some useful base features that can be used in any project
 * Speed up the process for spinning up a new API
 * Make it easy to find and arrange code
@@ -76,3 +76,9 @@ I have not included a request/response cache as the need for that type of functi
   * From my experience every team has their own logging requirements and those logs are shipped off to different locations. I thought it best to not force my opinion on the logger so that each team can implement their own logger without having to get rid of the one I included.
 * Do I need to change anything to start using this project?
   * Maybe, I tried to keep it as generic as possible so there would be minimal setup or removal of features to ensure a speedy implementation. Everything should work as is and not cause any performance bottlenecks. But it's up to you what you remove and what you don't.
+* Why isn't some kind of database support included?
+  * Again, the database that a team uses is usually based on the project. There are so many to choose from I would not assume I know best for your particular project. Choosing a database would make this project extremely opinionated which is what I'm trying to avoid here.
+* Why isn't some form of authentication included in the project?
+  * Again, way too many different forms of authentication available (GCP, AWS, proprietary, JWT, OAuth, SAML, on and on). Way too opinionated and would ultimately need to be removed and replaced for too many consumers of the project.
+  * Why not include multiple?
+    * This would produce too much bloat and increase maintenance costs for any project

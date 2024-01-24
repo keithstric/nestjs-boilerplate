@@ -15,9 +15,13 @@ export class HttpInterceptor implements NestInterceptor {
 	private _cache: CachingService;
 
 	intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<any> {
-		const req: Request = context.switchToHttp().getRequest();
-		const res: Response = context.switchToHttp().getResponse();
+		// code here runs before the controller method
+		const httpCtx = context.switchToHttp();
+		const req = httpCtx.getRequest();
+		const res = httpCtx.getResponse();
+
 		// Your logic here
 		return next.handle();
+		// return next.handle().pipe()
 	}
 }
