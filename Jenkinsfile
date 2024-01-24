@@ -43,9 +43,11 @@ pipeline {
             }
         }
         stage('Cleanup Docker Image') {
-            echo 'Cleaning up docker images'
-            script {
-                "docker image rm ${imageId} node"
+            steps {
+                echo 'Cleaning up docker images'
+                script {
+                    "docker image rm ${imageId} node"
+                }
             }
         }
     }
