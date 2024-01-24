@@ -21,5 +21,13 @@ pipeline {
                 sh 'npm run build'
             }
         }
+        stage('Build Docker Image...') {
+            steps {
+                echo 'Building the docker image...'
+                def nestjsBPImage = docker.build("keithstric/nestjs-boilerplate")
+                nestjsBPImage.push()
+                nestjsBPImage.push('latest')
+            }
+        }
     }
 }
