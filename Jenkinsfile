@@ -41,8 +41,8 @@ pipeline {
                 echo "Tagging git branch with new version tag ${newVersionTag}"
                 script {
                     withCredentials([usernameColonPassword(credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', variable: '')]) {
-                        git tag ${newVersionTag}
-                        git push origin ${newVersionTag}
+                        sh "git tag ${newVersionTag}"
+                        sh "git push --tags"
                     }
                 }
             }
