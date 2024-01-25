@@ -39,9 +39,12 @@ pipeline {
         stage('Tag Branch with new version') {
             steps {
                 echo "Tagging git branch with new version tag ${newVersionTag}"
-                git credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', url: 'https://github.com/keithstric/nestjs-boilerplate.git'
-                sh "git tag ${newVersionTag}"
-                sh "git push origin ${newVersionTag}"
+                script {
+                    withCredentials([usernameColonPassword(credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', variable: '')]) {
+                        git tag ${newVersionTag}
+                        git push origin ${newVersionTag}
+                    }
+                }
             }
         }
         stage('Build/Push Docker Image...') {
