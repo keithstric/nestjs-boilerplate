@@ -72,11 +72,21 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup Local Docker Image') {
+        stage('Cleanup Local Docker Image and Jenkins environment') {
             steps {
-                echo 'Cleaning up docker images'
+                echo 'Cleaning up docker images and environment variables'
                 sh "docker image rm ${imageId}"
                 sh "docker image rm node"
+                script {
+                    version = ''
+                    imageId = ''
+                    imageName = ''
+                    newVersion = ''
+                    newVersionTag = ''
+                    repoUrl = ''
+                    repoUrlPath = ''
+                    repoBranch = ''
+                }
             }
         }
     }
