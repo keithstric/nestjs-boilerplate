@@ -7,12 +7,15 @@ pipeline {
         imageName = 'keithstric/nestjs-boilerplate'
         newVersion = ''
         newVersionTag = ''
+        repoUrl = 'https://github.com/keithstric/nestjs-boilerplate.git'
+        repoUrlPath = 'github.com/keithstric/nestjs-boilerplate.git'
+        repoBranch = 'master'
     }
     stages {
         stage('Node Install') {
             steps {
                 echo 'Installing dependencies...'
-                git credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', url: 'https://github.com/keithstric/nestjs-boilerplate.git'
+                git branch: "${repoBranch}", credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', url: "${repoUrl}"
                 script {
                     version = readJSON(file: './package.json').version
                 }
@@ -25,7 +28,7 @@ pipeline {
                 sh 'npm run test'
             }
         }
-        stage('Build') {
+        stage('Build and bump version') {
             steps {
                 echo 'Starting the build...'
                 sh 'npm run build --only=production'
@@ -33,17 +36,6 @@ pipeline {
                 script {
                     newVersion = readJSON(file: './package.json').version
                     newVersionTag = "v${newVersion}"
-                }
-            }
-        }
-        stage('Tag Branch with new version') {
-            steps {
-                echo "Tagging git branch with new version tag ${newVersionTag}"
-                script {
-                    withCredentials([usernameColonPassword(credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', variable: '')]) {
-                        sh "git tag ${newVersionTag}"
-                        sh "git push --tags"
-                    }
                 }
             }
         }
@@ -60,12 +52,31 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup Docker Image') {
+        stage('Tagging and Updating Branch with new version') {
+            steps {
+                echo "Tagging git branch with new version tag ${newVersionTag}"
+                withCredentials([usernamePassword(credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', passwordVariable: 'GITHUB_PW', usernameVariable: 'GITHUB_USER')]) {
+                    sh '''
+                        git config --global credential.username $GITHUB_USER
+                        git config --global credential.helper '!f() { echo password=$GITHUB_PW; }; f'
+                        git config --global user.name "Jenkins"
+                        git config --global user.email "keithstric@gmail.com"
+                    '''
+                    sh """
+                        git add package.json
+                        git commit -m 'Jenkins updated build version to ${newVersion}'
+                        git tag -f ${newVersionTag}
+                        git push https://${env.GITHUB_USER}:${env.GITHUB_PW}@${repoUrlPath}
+                        git push -f https://${env.GITHUB_USER}:${env.GITHUB_PW}@${repoUrlPath} --tags
+                    """
+                }
+            }
+        }
+        stage('Cleanup Local Docker Image') {
             steps {
                 echo 'Cleaning up docker images'
-                script {
-                    "docker image rm ${imageId} node"
-                }
+                sh "docker image rm ${imageId}"
+                sh "docker image rm node"
             }
         }
     }
