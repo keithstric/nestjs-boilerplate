@@ -60,17 +60,15 @@ pipeline {
             steps {
                 echo "Tagging git branch with new version tag ${newVersionTag}"
                 withCredentials([usernamePassword(credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', passwordVariable: 'GITHUB_PW', usernameVariable: 'GITHUB_USER')]) {
-                    sh '''
+                    sh """
                         git config --global credential.username $GITHUB_USER
                         git config --global credential.helper '!f() { echo password=$GITHUB_PW; }; f'
                         git config --global user.name "Jenkins"
-                        git config --global user.email "keithstric@gmail.com"
-                    '''
-                    sh """
+                        git config --global user.email "jenkins@keithstric.com"
                         git add package.json
                         git commit -m 'Jenkins updated build version to ${newVersion}'
                         git tag -f ${newVersionTag}
-                        git push https://${env.GITHUB_USER}:${env.GITHUB_PW}@${repoUrlPath}
+                        git push https://${env.GITHUB_USER}:${env.GITHUB_PW}@${repoUrlPath} HEAD:"${repoBranch}"
                         git push -f https://${env.GITHUB_USER}:${env.GITHUB_PW}@${repoUrlPath} --tags
                     """
                 }
