@@ -39,3 +39,4 @@ lerna-debug.log*
 
 # documentation
 /documentation
+/pipeline.gdsl

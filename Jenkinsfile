@@ -76,7 +76,6 @@ pipeline {
             steps {
                 echo 'Cleaning up docker images and environment variables'
                 sh "docker image rm ${imageId}"
-                sh "docker image rm node"
                 script {
                     version = ''
                     imageId = ''
