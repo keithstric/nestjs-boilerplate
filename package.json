@@ -1,6 +1,6 @@
 {
   "name": "nestjs-boilerplate",
-  "version": "1.0.42",
+  "version": "1.0.43",
   "description": "A NestJs Boilerplate to get a NestJs application up and running quick",
   "author": "Keith Strickland",
   "private": false,
