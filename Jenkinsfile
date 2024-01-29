@@ -38,7 +38,6 @@ pipeline {
             }
             steps {
                 echo 'Installing dependencies...'
-                git branch: "${repoBranch}", credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', url: "${repoUrl}"
                 sh 'npm install'
             }
         }

@@ -1,7 +1,5 @@
 import { CachingService } from "@core/modules/caching/caching.service";
 import { CallHandler, ExecutionContext, Inject, Injectable, NestInterceptor } from "@nestjs/common";
-import { Request, Response } from "express";
-import { Observable } from "rxjs";
 import {ConfigService} from '@core/modules/config/config.service';
 
 /**
@@ -14,14 +12,16 @@ export class HttpInterceptor implements NestInterceptor {
 	@Inject(CachingService)
 	private _cache: CachingService;
 
-	intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<any> {
+	async intercept(context: ExecutionContext, next: CallHandler<any>): Promise<any> {
 		// code here runs before the controller method
 		const httpCtx = context.switchToHttp();
 		const req = httpCtx.getRequest();
 		const res = httpCtx.getResponse();
+		const controllerClassname = context.getClass().name; // a reference only, NOT an instance
 
 		// Your logic here
 		return next.handle();
+		// If you use the below pattern, can run code AFTER the controller method
 		// return next.handle().pipe()
 	}
 }
