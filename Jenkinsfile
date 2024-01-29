@@ -12,11 +12,12 @@ pipeline {
         repoBranch = 'master'
     }
     stages {
-        stage('Node Install') {
+        stage('Check if should build...') {
             when {
-                beforeAgent true
-                branch "${repoBranch}"
+                branch 'master'
             }
+        }
+        stage('Node Install') {
             steps {
                 echo 'Installing dependencies...'
                 git branch: "${repoBranch}", credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', url: "${repoUrl}"
@@ -34,26 +35,14 @@ pipeline {
         }
         stage('Build and bump version') {
             steps {
-                echo 'Starting the build...'
-                sh 'npm run build --only=production'
+                echo 'Bumping patch version...'
                 sh 'npm run bump-version:patch'
                 script {
                     newVersion = readJSON(file: './package.json').version
                     newVersionTag = "v${newVersion}"
                 }
-            }
-        }
-        stage('Build/Push Docker Image...') {
-            steps {
-                echo 'Docker Build/Push Image....'
-                script {
-                    img = docker.build("${imageName}")
-                    imageId = img.id
-                    docker.withRegistry('', '6f4e66e4-4f43-4849-bc23-b17884e35526') {
-                        img.push("${newVersion}")
-                        img.push('latest')
-                    }
-                }
+                echo "Building version ${newVersion}..."
+                sh 'npm run build --only=production'
             }
         }
         stage('Tagging and Updating Branch with new version') {
@@ -71,6 +60,19 @@ pipeline {
                         git push https://${env.GITHUB_USER}:${env.GITHUB_PW}@${repoUrlPath} HEAD:"${repoBranch}"
                         git push -f https://${env.GITHUB_USER}:${env.GITHUB_PW}@${repoUrlPath} --tags
                     """
+                }
+            }
+        }
+        stage('Build/Push Docker Image...') {
+            steps {
+                echo 'Docker Build/Push Image....'
+                script {
+                    img = docker.build("${imageName}")
+                    imageId = img.id
+                    docker.withRegistry('', '6f4e66e4-4f43-4849-bc23-b17884e35526') {
+                        img.push("${newVersion}")
+                        img.push('latest')
+                    }
                 }
             }
         }

@@ -1,7 +1,7 @@
 import {HttpService} from '@nestjs/axios';
 import {Injectable} from '@nestjs/common';
 import {ConfigService} from '@core/modules';
-
+/* some change */
 @Injectable()
 export class AppService {
 	constructor(private readonly _config: ConfigService, private readonly _http: HttpService) {}

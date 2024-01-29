@@ -8,3 +8,5 @@ documentation
 .github
 test
 .git
+pipeline.gdsl
+Jenkinsfile
