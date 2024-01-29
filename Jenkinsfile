@@ -1,19 +1,19 @@
-pipeline { 
+def version
+def imageId
+def imageName = 'keithstric/nestjs-boilerplate'
+def newVersion
+def newVersionTag
+def repoUrl = 'https://github.com/keithstric/nestjs-boilerplate.git'
+def repoUrlPath = 'github.com/keithstric/nestjs-boilerplate.git'
+def repoBranch = 'master'
+
+pipeline {
     agent any
     tools {nodejs "Node 21.6"}
-    environment {
-        version = ''
-        imageId = ''
-        imageName = 'keithstric/nestjs-boilerplate'
-        newVersion = ''
-        newVersionTag = ''
-        repoUrl = 'https://github.com/keithstric/nestjs-boilerplate.git'
-        repoUrlPath = 'github.com/keithstric/nestjs-boilerplate.git'
-        repoBranch = 'master'
-    }
     stages {
         stage('Node Install') {
             when {
+                beforeAgent true
                 branch 'master'
             }
             steps {
@@ -53,7 +53,7 @@ pipeline {
                         git config --global user.name "Jenkins"
                         git config --global user.email "jenkins@keithstric.com"
                         git add package.json
-                        git commit -m 'Jenkins updated build version to ${newVersion}'
+                        git commit -m 'Jenkins - updated build version to ${newVersion}'
                         git tag -f ${newVersionTag}
                         git push https://${env.GITHUB_USER}:${env.GITHUB_PW}@${repoUrlPath} HEAD:"${repoBranch}"
                         git push -f https://${env.GITHUB_USER}:${env.GITHUB_PW}@${repoUrlPath} --tags
