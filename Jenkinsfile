@@ -11,10 +11,11 @@ pipeline {
     agent any
     tools {nodejs "Node 21.6"}
     stages {
-        stage('Node Install') {
+        stage('NPM Install...') {
             when {
                 beforeAgent true
-                branch 'master'
+                branch "${repoBranch}"
+                expression {env.GIT_COMMITTER_NAME != 'Jenkins'}
             }
             steps {
                 echo 'Installing dependencies...'
@@ -25,13 +26,13 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('Testing') {
+        stage('Testing...') {
             steps {
                 echo 'Running Unit Tests'
                 sh 'npm run test'
             }
         }
-        stage('Build and bump version') {
+        stage('Build and bump version...') {
             steps {
                 echo 'Bumping patch version...'
                 sh 'npm run bump-version:patch'
@@ -43,7 +44,7 @@ pipeline {
                 sh 'npm run build --only=production'
             }
         }
-        stage('Tagging and Updating Branch with new version') {
+        stage('Tagging and Updating Branch with new version...') {
             steps {
                 echo "Tagging git branch with new version tag ${newVersionTag}"
                 withCredentials([usernamePassword(credentialsId: '2e31314d-3846-45a9-b554-76317c61b288', passwordVariable: 'GITHUB_PW', usernameVariable: 'GITHUB_USER')]) {
@@ -74,7 +75,7 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup Local Docker Image and Jenkins environment') {
+        stage('Cleanup Local Docker Image and Jenkins environment...') {
             steps {
                 echo 'Cleaning up docker images and environment variables'
                 sh "docker image rm ${imageId}"
