@@ -25,8 +25,7 @@ pipeline {
                   committer_name = sh(script: "git log -n 1 ${env.GIT_COMMIT} --format=%cN", returnStdout: true).trim()
                   commit_msg = sh(script: "git log -1 --format=%B ${GIT_COMMIT}", returnStdout: true).trim()
                 }
-                script {
-                }
+                echo "Current version is ${version}"
                 echo "Committer name of last commit is ${committer_name}"
                 echo "Commit message of last commit is ${commit_msg}"
             }
