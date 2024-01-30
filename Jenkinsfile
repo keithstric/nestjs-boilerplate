@@ -1,11 +1,11 @@
 def version
 def imageId
-def imageName = 'keithstric/nestjs-boilerplate'
+def imageName
 def newVersion
 def newVersionTag
-def repoUrl = 'https://github.com/keithstric/nestjs-boilerplate.git'
-def repoUrlPath = 'github.com/keithstric/nestjs-boilerplate.git'
-def repoBranch = 'master'
+def repoUrl
+def repoUrlPath
+def repoBranch
 def committer_name
 def commit_msg
 
@@ -21,13 +21,22 @@ pipeline {
             steps {
                 echo "Getting variables from git commit ${env.GIT_COMMIT}"
                 script {
-                  version = readJSON(file: './package.json').version
+                  def packageJson = readJSON(file: './package.json')
+                  version = packageJson.version
                   committer_name = sh(script: "git log -n 1 ${env.GIT_COMMIT} --format=%cN", returnStdout: true).trim()
                   commit_msg = sh(script: "git log -1 --format=%B ${GIT_COMMIT}", returnStdout: true).trim()
+                  imageName = packageJson.config.dockerImage
+                  repoBranch = packageJson.config.mainBranch
+                  repoUrl = packageJson.repository.url
+                  repoUrlPath = repoUrl.substring(8)
                 }
                 echo "Current version is ${version}"
                 echo "Committer name of last commit is ${committer_name}"
                 echo "Commit message of last commit is ${commit_msg}"
+                echo "Repository Url is ${repoUrl}"
+                echo "Repository Branch is ${repoBranch}"
+                echo "Repository Url Path is ${repoUrlPath}"
+                echo "Docker image name is ${imageName}"
             }
         }
         stage('NPM Install...') {

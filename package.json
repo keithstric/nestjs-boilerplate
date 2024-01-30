@@ -5,6 +5,10 @@
   "author": "Keith Strickland",
   "private": false,
   "license": "UNLICENSED",
+  "repository": {
+    "url": "https://github.com/keithstric/nestjs-boilerplate.git",
+    "type": "git"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -96,5 +100,9 @@
       "^@routes/(.*)$": "<rootDir>/src/routes/$1",
       "^@testing/(.*)$": "<rootDir>/src/testing/$1"
     }
+  },
+  "config": {
+    "dockerImage": "keithstric/nestjs-boilerplate",
+    "mainBranch": "master"
   }
 }
