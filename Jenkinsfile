@@ -14,10 +14,6 @@ pipeline {
     tools {nodejs "Node 21.6"}
     stages {
         stage ('Preparing Environment...') {
-            when {
-                beforeAgent true
-                branch "${repoBranch}"
-            }
             steps {
                 echo "Getting variables from git commit ${env.GIT_COMMIT}"
                 script {
