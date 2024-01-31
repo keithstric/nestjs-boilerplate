@@ -116,16 +116,18 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup Local Docker Image and Jenkins environment...') {
-            when {
-                beforeAgent true
-                branch "${repoBranch}"
-                expression {committer_name != 'Jenkins'}
-                expression {imageId != ''}
-            }
-            steps {
-                echo 'Cleaning up docker images'
-                sh "docker image rm ${imageId}"
+    }
+    post {
+        always {
+            echo 'Cleaning up workspace'
+            cleanWs notFailBuild: true
+        }
+        success {
+            script {
+                if (imageId?.trim()) {
+                    echo 'Cleaning up docker images'
+                    sh "docker image rm ${imageId}"
+                }
             }
         }
     }
