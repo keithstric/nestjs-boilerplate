@@ -88,7 +88,6 @@ pipeline {
                         git config --global credential.helper '!f() { echo password=$GITHUB_PW; }; f'
                         git config --global user.name "${GIT_GLOBAL_USER}"
                         git config --global user.email "${GIT_GLOBAL_EMAIL}"
-                        git fetch --tags
                         git add package.json
                         git commit -m 'Jenkins - updated build version to ${newVersion}'
                         git tag -f ${newVersionTag}
@@ -116,17 +115,15 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup Local Docker Image and Jenkins environment...') {
-            when {
-                beforeAgent true
-                branch "${repoBranch}"
-                expression {committer_name != 'Jenkins'}
-                expression {imageId != ''}
-            }
-            steps {
-                echo 'Cleaning up docker images'
-                sh "docker image rm ${imageId}"
-            }
+    }
+    post {
+        always {
+            echo 'Cleaning up workspace'
+            cleanWs notFailBuild: true
+        }
+        success {
+            echo 'Cleaning up docker images'
+            sh "docker image rm ${imageId}"
         }
     }
 }
