@@ -122,8 +122,13 @@ pipeline {
             cleanWs notFailBuild: true
         }
         success {
-            echo 'Cleaning up docker images'
-            sh "docker image rm ${imageId}"
+            script {
+                if (imageId?.trim()) {
+                    echo 'Cleaning up docker images'
+                    sh "docker image rm ${imageId}"
+                    currentBuild.result = 'SUCCESS'
+                }
+            }
         }
     }
 }
