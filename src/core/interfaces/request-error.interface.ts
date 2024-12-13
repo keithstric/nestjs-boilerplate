@@ -3,4 +3,5 @@ export interface IRequestError {
 	statusCode?: number;
 	requestBody?: any;
 	requestId?: string;
+	stack?: string;
 }

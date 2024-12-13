@@ -1,5 +1,12 @@
 import {ICustomRequest, IRequestError} from '@/src/core';
-import {ArgumentsHost, ExceptionFilter, HttpException, HttpStatus, InternalServerErrorException} from '@nestjs/common';
+import {LoggerService} from '@core/services/logger/logger.service';
+import {
+	ArgumentsHost,
+	ExceptionFilter,
+	HttpException,
+	HttpStatus, Inject,
+	InternalServerErrorException,
+} from '@nestjs/common';
 import {Response} from 'express';
 import {ConfigService} from '@core/modules';
 
@@ -8,8 +15,6 @@ import {ConfigService} from '@core/modules';
  * include your logging solution to log the error
  */
 export class AllExceptionsFilter implements ExceptionFilter {
-	constructor(private readonly _config: ConfigService) {}
-
 	catch(exception: InternalServerErrorException, host: ArgumentsHost) {
 		const ctx = host.switchToHttp();
 		const req = ctx.getRequest<ICustomRequest>();
@@ -22,12 +27,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
 			statusCode: res.statusCode,
 			requestBody: req.body,
 			requestId: req.id,
+			stack: exception.stack,
 		};
 		// send error back to requester
 		res.status(status).json(errorResponseBody);
 
 		res.on('finish', () => {
 			// log the error here
+			LoggerService.error(exception.message, exception, exception.name);
 		});
 	}
 }
